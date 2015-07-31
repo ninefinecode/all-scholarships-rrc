@@ -9,6 +9,8 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+  // load assemble
+  grunt.loadNpmTasks('assemble');
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -51,6 +53,10 @@ module.exports = function (grunt) {
       styles: {
         files: ['<%= config.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
+      }, 
+      assemble: {
+        files: ['<%= config.app %>/templates/**/*.hbs'],
+        tasks: ['newer:assemble']
       },
       livereload: {
         options: {
@@ -106,7 +112,7 @@ module.exports = function (grunt) {
       }
     },
 
-    // Empties folders to start fresh
+    // Empties folders to tart fresh
     clean: {
       dist: {
         files: [{
@@ -119,6 +125,23 @@ module.exports = function (grunt) {
         }]
       },
       server: '.tmp'
+    },
+
+    // Create html pages using assemble
+    assemble: {
+      options: {
+        flatten: true,
+        layout: '<%= config.app %>/templates/layouts/default.hbs',
+        partials: ['<%= config.app %>/templates/partials/**/*.hbs'],
+      },
+      pages: {
+        options:{
+          layout:'<%= config.app %>/templates/layouts/default.hbs'
+        },
+        files: {
+          '.tmp/': ['<%= config.app %>/templates/pages/**/*.hbs']
+        }
+      }
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
@@ -164,7 +187,7 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         ignorePath: /^\/|\.\.\//,
-        src: ['<%= config.app %>/index.html'],
+        src: ['<%= config.app %>/templates/layouts/default.hbs'],
         exclude: ['bower_components/bootstrap/dist/js/bootstrap.js']
       }
     },
@@ -191,7 +214,7 @@ module.exports = function (grunt) {
       options: {
         dest: '<%= config.dist %>'
       },
-      html: '<%= config.app %>/index.html'
+      html: '.tmp/index.html'
     },
 
     // Performs rewrites based on rev and the useminPrepare configuration
@@ -289,9 +312,14 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             'images/{,*/}*.webp',
-            '{,*/}*.html',
             'styles/fonts/{,*/}*.*'
           ]
+        }, {
+          expand: true,
+          dot: true,
+          cwd: '.tmp',
+          dest: '<%= config.dist %>',
+          src: '{,*/}*.html'
         }, {
           src: 'node_modules/apache-server-configs/dist/.htaccess',
           dest: '<%= config.dist %>/.htaccess'
@@ -339,6 +367,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'assemble',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -356,6 +385,7 @@ module.exports = function (grunt) {
     if (target !== 'watch') {
       grunt.task.run([
         'clean:server',
+        'assemble',
         'concurrent:test',
         'autoprefixer'
       ]);
@@ -369,6 +399,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'assemble',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
