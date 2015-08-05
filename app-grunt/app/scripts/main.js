@@ -31,14 +31,14 @@ input.keyup(function () {
 		var query = '', negQuery = '';
 		tokens.forEach(function(token){
 			if (token[0] !== '-') {
-				query += '.scholarship[data-tags*="' + token + '"],';
+				query +=  '.scholarship[data-tags*="' + token + '"],';
 			} else {
 				negQuery = '.scholarship:not([data-tags*="' + token.substring(1) + '"]),';
 			}
 			// if (i + 1 != tokens.length) query += ',';
 		});
-		if (query.endsWith(',')) query = query.substring(0, query.length - 1);
-		if (negQuery.endsWith(',')) negQuery = negQuery.substring(0, negQuery.length - 1);
+		if (query.endsWith(',')) query = query.substring(0,query.length -1);
+		if (negQuery.endsWith(',')) negQuery = negQuery.substring(0,negQuery.length -1);
 		$('.scholarship').hide();
 		var results = $(query);
 		if (negQuery !== '') results = results.filter(negQuery);

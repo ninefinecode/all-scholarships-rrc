@@ -1,4 +1,4 @@
-.browserupgrade {
+.browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
@@ -86,4 +86,8 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+#search {
+  
 }
