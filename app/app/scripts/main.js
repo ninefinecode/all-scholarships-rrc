@@ -37,8 +37,8 @@ input.keyup(function () {
 			}
 			// if (i + 1 != tokens.length) query += ',';
 		});
-		if (query.endsWith(',')) query = query.substring(0, query.length - 1);
-		if (negQuery.endsWith(',')) negQuery = negQuery.substring(0, negQuery.length - 1);
+		if (/,$/i.test(query)) query = query.substring(0, query.length - 1);
+		if (/,$/i.test(negQuery)) negQuery = negQuery.substring(0, negQuery.length - 1);
 		$('.scholarship').hide();
 		var results = $(query);
 		if (negQuery !== '') results = results.filter(negQuery);

@@ -21,6 +21,9 @@ Android/assets/
 # platforms/android/res/
 # platforms/android/platform_www/
 
+platforms/android/.gradle/
+www/
+
 # generated files
 bin/
 gen/
