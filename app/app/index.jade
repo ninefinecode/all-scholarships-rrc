@@ -1,0 +1,20 @@
+extends layouts/default
+
+block content 
+  h1 Search For scholarships
+  form.form-inline(id='')
+    .form-group
+      input#search.form-control(type='text', placeholder='search')
+  p
+    span#count
+    |  Scholarships found.
+
+  .scholarships
+    each s in scholarships
+      .scholarship(data-tags!=s.tags)
+        h3!= s.title
+        p!= s.application
+        p!= s.text
+        ul.taglist
+          each t in s.tags 
+            li!= t 
