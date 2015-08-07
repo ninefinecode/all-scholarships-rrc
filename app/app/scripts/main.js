@@ -28,19 +28,22 @@ input.keyup(function () {
 
 		// 2. query like so to get matching scholarships
 		// $('.scholarship[data-tags*="token[0]"], .scholarship[data-tags*="token[1]"]')
-		var query = '', negQuery = '';
+		var query = '', negQuery = '', plusQuery = '.scholarship';
 		tokens.forEach(function(token){
-			if (token[0] !== '-') {
-				query += '.scholarship[data-tags*="' + token + '"],';
-			} else {
+			if (token[0] === '-') {
 				negQuery = '.scholarship:not([data-tags*="' + token.substring(1) + '"]),';
+			} else if (token[0] === '+'){
+				plusQuery +='[data-tags*="' + token.substring(1) + '"]' 
+			} else {
+				query += '.scholarship[data-tags*="' + token + '"],';
 			}
 			// if (i + 1 != tokens.length) query += ',';
 		});
 		if (/,$/i.test(query)) query = query.substring(0, query.length - 1);
 		if (/,$/i.test(negQuery)) negQuery = negQuery.substring(0, negQuery.length - 1);
 		$('.scholarship').hide();
-		var results = $(query);
+		var results = $(plusQuery);
+		if (query !== '') results = results.filter(query);
 		if (negQuery !== '') results = results.filter(negQuery);
 		results.show();
 		setCount(results.length);
