@@ -126,6 +126,7 @@ gulp.task('serve', ['views', 'styles', 'fonts'], () => {
   gulp.watch('app/styles/**/*.css', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
+  gulp.watch('*.json', ['views']);
 });
 
 gulp.task('serve:dist', () => {
