@@ -4,7 +4,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
-import scholarships from './scholarships'
+import scholarhipData from './scholarships'
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
@@ -21,7 +21,7 @@ gulp.task('views', function () {
   return gulp.src('app/*.jade')
     .pipe($.jade({
       pretty: true,
-      locals: {scholarships:scholarships}
+      locals: scholarhipData
     }))
     .pipe(gulp.dest('.tmp'))
     .pipe(reload({stream: true}));

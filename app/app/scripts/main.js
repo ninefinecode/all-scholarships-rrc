@@ -53,3 +53,8 @@ input.keyup(function () {
 		scholarships.show();
 	}
 });
+
+$('.query').click(function(ev){
+	input.val($(ev.target).data('query'));
+	input.keyup();
+});

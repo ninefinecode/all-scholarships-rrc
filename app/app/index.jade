@@ -1,13 +1,16 @@
 extends layouts/default
-
+mixin searchQuery (query)
+  a.query(data-dismiss="modal" data-query!=query)= query
 block content 
   h1 Search For scholarships
   form.form-inline(id='')
     .form-group
       input#search.form-control(type='text', placeholder='search')
+  a(data-toggle="modal" data-target="#help") Help
   p
     span#count
     |  Scholarships found.
+
 
   .scholarships
     each s in scholarships
@@ -18,3 +21,34 @@ block content
         ul.taglist
           each t in s.tags 
             li!= t 
+
+
+
+  #help.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h4.modal-title Help
+        .modal-body
+          p Searching and filtering through scholarships couldn't be easier: Simply enter keywords. Don't worry about typing them entirely as the app searches for any keywords that are close to the input
+          p There are 3 ways to use keywords:
+          dl.dl-horizontal
+            dt plain
+            dd Entering a keyword by itself will bring all results that contain <em>any</em> of the keywords. Ex: 
+              +searchQuery("entrance technology")
+            dt prefix with plus (+)
+            dd prefixing a keyword with <code>+</code> sign will make the all the results contain that keyword. Ex: 
+              +searchQuery("+entrance")
+            dt prefix with minus (-)
+            dd prefixing a keyword with <code>-</code> sign will exclude scholarships with that keyword. Ex: 
+              +searchQuery("+entrance -volunteer")
+          p Here is all the keywords available for searching:
+            ul.list-inline
+              each tag in tags 
+                li 
+                  +searchQuery(tag)
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          //- button.btn.btn-primary(type='button') Save changes
