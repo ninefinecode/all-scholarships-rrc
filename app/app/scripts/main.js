@@ -33,7 +33,7 @@ input.keyup(function () {
 			if (token[0] === '-') {
 				negQuery = '.scholarship:not([data-tags*="' + token.substring(1) + '"]),';
 			} else if (token[0] === '+'){
-				plusQuery +='[data-tags*="' + token.substring(1) + '"]' 
+				plusQuery += '[data-tags*="' + token.substring(1) + '"]';
 			} else {
 				query += '.scholarship[data-tags*="' + token + '"],';
 			}
